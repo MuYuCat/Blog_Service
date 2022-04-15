@@ -1,33 +1,26 @@
-# eggs
+# Blog_Service
 
-blog
+个人博客__服务端
 
-## QuickStart
-
-<!-- add docs here for user -->
-
-see [egg docs][egg] for more detail.
-
-### Development
-
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
+### 项目结构
 ```
-
-### Deploy
-
-```bash
-$ npm start
-$ npm stop
+|--.github               # github Action ci 相关配置
+|--app                   # 应用源码
+    |--controller        # 控制器文件
+    |--public            # 静态服务器文件
+    |--router.js         # 路由文件
+|--config                # 项目配置
+    |--config.default.js # 默认配置文件
+    |--plugin.js         # 插件配置文件
+|--logs                  # 项目自动生成的日志文件
+|--run                   # 项目自动生成的文件
+|--test                  # 项目自动生成的文件
+|--typings               # 项目自动生成的类型相关文件
+|--.dockerignore         # docker忽略文件
+|--.eslintignore         # eslint忽略文件
+|--.eslintrc.js          # eslint
+|--.gitignroe            # git
+|--jsconfig.json
+|--package.json
+|--README.md
 ```
-
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
