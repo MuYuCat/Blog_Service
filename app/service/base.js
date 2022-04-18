@@ -7,7 +7,8 @@ class BaseService extends Service {
   async _findAll(modelName) {
     const { ctx, app } = this
     try {
-      return await ctx.model[modelName].findAll()
+      const result = await ctx.model[modelName].findAll();
+      return result
     } catch (error) {
       return 'Server error'
     }
@@ -41,7 +42,7 @@ class BaseService extends Service {
       await ctx.model[modelName].create(json)
       return '新增成功'
     } catch (error) {
-      return 'Server error'
+      return [error, 'Server error']
     }
   }
 

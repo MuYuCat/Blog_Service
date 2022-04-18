@@ -7,6 +7,7 @@ class UserController extends BaseController {
   async findAll() {
     const { ctx, service } = this
     let result = await service.user.findAll()
+    if (result === 'Server error') this.error(0, result)
     this.success(result, 'OK')
   }
 
@@ -15,18 +16,19 @@ class UserController extends BaseController {
     const { ctx, service } = this
     let id = ctx.params.id
     let result = await service.user.findById(id)
+    if (result === 'Server error') this.error(0, result)
     this.success(result, 'OK')
   }
 
   //新增数据
   async add() {
     const { ctx, service } = this
-    let { username, nickname, avatar, sex, age } = ctx.request.body
+    let { username, password, avatar_url, sex, age } = ctx.request.body
     let result = await service.user.add({
       id: new Date().valueOf(),
       username,
-      nickname,
-      avatar,
+      password,
+      avatar_url,
       sex,
       age
     })
