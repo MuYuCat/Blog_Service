@@ -1,28 +1,55 @@
+<!--
+ * @Author: MuYuCat
+ * @Date: 2022-04-15 15:24:37
+ * @LastEditors: MuYuCat
+ * @LastEditTime: 2022-04-19 18:01:46
+ * @Description: README
+-->
 # Blog_Service
 
 个人博客__服务端
+> Egg.js
 
 ### 项目结构
 ```
-|--.github               # github Action ci 相关配置
-|--app                   # 应用源码
-    |--controller        # 控制器文件
-    |--public            # 静态服务器文件
-    |--router.js         # 路由文件
-|--config                # 项目配置
-    |--config.default.js # 默认配置文件
-    |--plugin.js         # 插件配置文件
-|--logs                  # 项目自动生成的日志文件
-|--run                   # 项目自动生成的文件
-|--test                  # 项目自动生成的文件
-|--typings               # 项目自动生成的类型相关文件
-|--.dockerignore         # docker忽略文件
-|--.eslintignore         # eslint忽略文件
-|--.eslintrc.js          # eslint
-|--.gitignroe            # git
-|--jsconfig.json
-|--package.json
-|--README.md
+.
+├── .github                     # github Action ci 相关配置
+├── app                         # 应用源码
+│   ├── controller              # 控制器文件
+│   │   ├── base                # 基础控制器
+│   │   ├── home                # 主页面控制器
+│   │   └── user                # 登陆控制器
+│   ├── model                   # 数据库model文件
+│   │   └── user                # user数据库
+│   ├── public                  # 静态文件
+│   ├── service                 # 服务接口文件
+│   │   ├── base                # 基础接口方法
+│   │   └── user                # 登陆接口方法
+│   └── router                  # 路由主控页面
+├── config                      # 环境配置文件
+│   ├── config.default          # 默认环境配置
+│   └── plugin                  # 插件环境配置
+├── database                    # migrations插件文件
+│   ├── migrations              # 数据库迁移设计文件
+│   │   └── users               # users数据库
+│   └── config.json             # 数据库环境配置
+├── logs                        # 项目自动生成的日志文件
+├── run                         # 项目自动生成的文件
+├── test                        # 项目自动生成的文件
+├── typings                     # 项目自动生成的类型相关文件
+├── .autod.conf.js              # 调用配置文件
+├── .editorconfig               # editorConfig 配置文件
+├── .eslintrc.js                # eslint 配置文件
+├── .gitignore                  # git 排除配置文件
+├── .prettierrc                 # prettier 配置文件
+├── .sequelizerc                # sequelizerc 配置文件
+├── .travis.yml                 # 数据库迁移配置文件
+├── appveyor.yml                # 自动构建文件
+├── jsconfig.json                                
+├── package-lock.json
+├── package.json
+└── README.md
+
 ```
 ## 配置MySQL数据库
 
@@ -77,4 +104,21 @@
     npx sequelize db:migrate:undo
     可以通过 `db:migrate:undo:all` 回退到初始状态
     npx sequelize db:migrate:undo:all
+    ```
+
+## 部署nginx服务器
+> 提前下载好npm
+1. 将代码打包
+    ```
+      cd baseDir
+      npm install --production
+      tar -zcvf ../release.tgz .
+    ```
+2. 上传至服务器相应位置，在该位置进行解压缩
+    ```
+      tar zxvf release.tgz
+    ```
+3. 随后开启服务
+    ```
+      npm start
     ```

@@ -52,10 +52,20 @@ module.exports = appInfo => {
     },
   };
 
+  // 需要配合 security 插件一块使用
+  config.security = {
+    // 关闭 csrf
+    csrf: {
+      enable: false,
+    },
+      // 跨域白名单
+    domainWhiteList: [ 'http://localhost:8080' ],
+  };
+
   /* 配置允许跨域 */
   config.cors = {
       credentials: true,
-      origin: "*", //允许任何跨域，若只允许个别IP跨域，则：origin:['http://localhost:8080']
+      origin: ctx => ctx.get('origin'), //允许任何跨域，若只允许个别IP跨域，则：origin:['http://localhost:8080']
       allowMethods: 'GET,PUT,POST,DELETE,PATCH', // 被允许的请求方式
   };
 
