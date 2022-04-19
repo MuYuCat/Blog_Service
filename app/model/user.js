@@ -27,6 +27,6 @@ module.exports = (app) => {
       tableName: 'users' //设置表名称
     }
   )
-  User.sync({force:true})
+  // User.sync({force:true})
   return User
 }
