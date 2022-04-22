@@ -42,7 +42,9 @@
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
-    "db:autoModels": "node ./database/autoModels"
+    "db:autoModels": "node ./database/autoModels",
+    "build": "mkdir dist & tar -zcvf ./dist/release.tgz .",
+    "open": "tar zxvf release.tgz"
   },
   "ci": {
     "version": "10"
