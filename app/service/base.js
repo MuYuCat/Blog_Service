@@ -1,17 +1,29 @@
+/*
+ * @Author: MuYuCat
+ * @Date: 2022-04-15 17:08:39
+ * @LastEditors: MuYuCat
+ * @LastEditTime: 2022-04-21 18:07:09
+ * @Description: file content
+ */
 'use strict'
 
 const Service = require('egg').Service
 
 class BaseService extends Service {
+  async _findOne(modelName, where) {
+    const { ctx, app } = this;
+    try{
+      const result = ctx.model[modelName].findOne(where);
+      return result;
+    } catch (error) {
+      return 'Server error';
+    }
+  }
   //查询数据
   async _findAll(modelName) {
     const { ctx, app } = this
-    try {
-      const result = await ctx.model[modelName].findAll();
-      return result
-    } catch (error) {
-      return 'Server error'
-    }
+    const result = await ctx.model[modelName].findAll();
+    return result
   }
 
   //查询数据总数

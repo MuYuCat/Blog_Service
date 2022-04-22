@@ -1,22 +1,37 @@
-/* eslint valid-jsdoc: "off" */
+/*
+ * @Author: MuYuCat
+ * @Date: 2022-04-15 15:24:37
+ * @LastEditors: MuYuCat
+ * @LastEditTime: 2022-04-22 11:54:08
+ * @Description: file content
+ */
 
 'use strict';
 
 module.exports = appInfo => {
 
   const config = exports = {};
+
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1650007439211_2219';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = [ 'errorHandler' ];
+  // config.errorHandler = {
+  //   enable: true,
+  //   // match: '/user/findUserByUserId',
+  //   ignore: '/user/findUserByUserId',
+  // };
 
-  /* 取消安全证书验证 */
-  config.security = {
-    csrf: {
-      enable: false,
-    },
-    domainWhiteList: ["*"], // 白名单
+  // token加密密钥，自行配置
+  config.jwt = {
+    secret: 'www.muyucat.com',
+  };
+
+  // 参数校验
+  config.valparams = {
+    locale : 'zh-cn',
+    throwError: true
   };
 
   /* 连接mysql配置 */
@@ -54,7 +69,6 @@ module.exports = appInfo => {
 
   // 需要配合 security 插件一块使用
   config.security = {
-    // 关闭 csrf
     csrf: {
       enable: false,
     },

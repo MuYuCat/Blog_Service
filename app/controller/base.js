@@ -1,26 +1,24 @@
+/*
+ * @Author: MuYuCat
+ * @Date: 2022-04-15 17:13:13
+ * @LastEditors: MuYuCat
+ * @LastEditTime: 2022-04-22 10:15:31
+ * @Description: file content
+ */
 'use strict'
 
 const Controller = require('egg').Controller
 
 class BaseController extends Controller {
-  /* 操作成功，返回数据 */
-  async success(data, msg, code = 200) {
-    const { ctx } = this
+  success(data = null, msg = 'success', code = 200) {
+    const { ctx } = this;
+    ctx.status = 200;
     ctx.body = {
       code,
       msg,
-      data
-    }
-  }
-
-  /* 操作失败，返回数据 */
-  async error(msg, code = 403) {
-    const { ctx } = this
-    ctx.body = {
-      code,
-      msg
-    }
+      data,
+    };
   }
 }
 
-module.exports = BaseController
+module.exports = BaseController;

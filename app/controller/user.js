@@ -1,14 +1,44 @@
+/*
+ * @Author: MuYuCat
+ * @Date: 2022-04-15 17:13:35
+ * @LastEditors: MuYuCat
+ * @LastEditTime: 2022-04-22 14:55:25
+ * @Description: file content
+ */
 'use strict'
 
-const BaseController = require('./base')
+const BaseController = require('./base');
+const md5 = require('md5');
 
 class UserController extends BaseController {
+  // 登陆页面
+  async login() {
+    const { ctx, service } = this;
+    ctx.validate({
+      username: { type: 'string', required: true },
+      password: { type: 'string', required: true },
+    });
+    const { username, password } = ctx.request.body;
+    const md5pwd = md5(password + 'secret');
+    const where = {where: {
+      password: md5pwd,
+      username: username,
+    },};
+    const result = await service.user.login(where);
+    this.success(result, '登陆成功');
+  }
+  async getUserInfo() {
+    const { ctx, service } = this;
+    console.log(ctx.request.query);
+    const token = ctx.header.authorization;
+    const userInfo = await service.user.getUserInfo(token)
+    this.success(userInfo);
+  }
   //查询所有数据
   async findAll() {
     const { ctx, service } = this
     let result = await service.user.findAll()
-    if (result === 'Server error') this.error(0, result)
-    this.success(result, 'OK')
+    this.success(result);
   }
 
   //根据ID查数据
@@ -16,7 +46,6 @@ class UserController extends BaseController {
     const { ctx, service } = this
     let id = ctx.params.id
     let result = await service.user.findById(id)
-    if (result === 'Server error') this.error(0, result)
     this.success(result, 'OK')
   }
 
@@ -32,8 +61,7 @@ class UserController extends BaseController {
       sex,
       age
     })
-    if (result === 'Server error') this.error(0, result)
-    this.success(1, result)
+    this.success(result)
   }
 
   //修改数据
@@ -41,8 +69,7 @@ class UserController extends BaseController {
     const { ctx, service } = this
     let { id, username, nickname, avatar, sex, age } = ctx.request.body
     let result = await service.user.edit({ id, username, nickname, avatar, sex, age })
-    if (result === 'Server error') this.error(0, result)
-    this.success(1, result)
+    this.success(result)
   }
 
   //修改数据
@@ -50,8 +77,7 @@ class UserController extends BaseController {
     const { ctx, service } = this
     let id = ctx.params.id
     let result = await service.user.del(id)
-    if (result === 'Server error') this.error(0, result)
-    this.success(1, result)
+    this.success(result)
   }
 }
 
