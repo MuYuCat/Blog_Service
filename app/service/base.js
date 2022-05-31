@@ -1,10 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-15 17:08:39
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-21 18:07:09
- * @Description: file content
- */
 'use strict'
 
 const Service = require('egg').Service
@@ -16,7 +9,7 @@ class BaseService extends Service {
       const result = ctx.model[modelName].findOne(where);
       return result;
     } catch (error) {
-      return 'Server error';
+      ctx.throw(500, 'Server error');
     }
   }
   //查询数据
@@ -32,7 +25,7 @@ class BaseService extends Service {
     try {
       return await ctx.model[modelName].count()
     } catch (error) {
-      return 'Server error'
+      ctx.throw(500, 'Server error');
     }
   }
 
@@ -43,7 +36,7 @@ class BaseService extends Service {
       const result = await ctx.model[modelName].findByPk(id)
       return result
     } catch (error) {
-      return 'Server error'
+      ctx.throw(500, 'Server error');
     }
   }
 
@@ -54,7 +47,7 @@ class BaseService extends Service {
       await ctx.model[modelName].create(json)
       return '新增成功'
     } catch (error) {
-      return [error, 'Server error']
+      ctx.throw(500, 'Server error');
     }
   }
 
@@ -67,7 +60,7 @@ class BaseService extends Service {
       await result.update({ ...json })
       return true
     } catch (error) {
-      return 'Server error'
+      ctx.throw(500, 'Server error');
     }
   }
 
@@ -80,7 +73,7 @@ class BaseService extends Service {
       await result.destroy()
       return true
     } catch (error) {
-      return 'Server error'
+      ctx.throw(500, 'Server error');
     }
   }
 }

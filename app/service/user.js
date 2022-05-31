@@ -10,6 +10,7 @@
 const BaseService = require('./base')
 
 class UsersService extends BaseService {
+
   // 登陆页面
   async login(option) {
     const { ctx, app } = this;
@@ -24,7 +25,8 @@ class UsersService extends BaseService {
     }
     ctx.throw(403, '账号或密码错误');
   }
-  // 校验token
+
+  // 获取用户信息
   async getUserInfo(token) {
     const { ctx } = this;
     // 解密token

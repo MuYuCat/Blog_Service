@@ -18,15 +18,15 @@ return async function (ctx, next) {
   if (!isInWhiteList) {
       // 拿到前端传过来的 token
       const token = ctx.request.header.authorization
-      if (token) {
+      if (!!token && token !== 'null') {
         //解密token
         const secret = ctx.app.config.jwt.secret
-        const decoded = ctx.app.jwt.verify(token, secret) || 'false'
-        if (decoded !== 'false') {
-          await next()
-        } else {
+        try {
+          await ctx.app.jwt.verify(token, secret);
+        } catch (e) {
           ctx.throw(403, '无效Token')
         }
+        await next()
       } else {
         ctx.throw(403, '无Token')
       }

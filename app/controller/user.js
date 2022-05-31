@@ -11,7 +11,8 @@ const BaseController = require('./base');
 const md5 = require('md5');
 
 class UserController extends BaseController {
-  // 登陆页面
+
+  // 用户登陆
   async login() {
     const { ctx, service } = this;
     ctx.validate({
@@ -27,6 +28,7 @@ class UserController extends BaseController {
     const result = await service.user.login(where);
     this.success(result, '登陆成功');
   }
+
   // 获取用户信息
   async getUserInfo() {
     const { ctx, service } = this;
@@ -35,14 +37,15 @@ class UserController extends BaseController {
     const userInfo = await service.user.getUserInfo(token)
     this.success(userInfo);
   }
-  //查询所有数据
+
+  // 查询所有用户信息
   async findAll() {
     const { ctx, service } = this
     let result = await service.user.findAll()
     this.success(result);
   }
 
-  //根据ID查数据
+  // 根据用户ID查数据
   async findById() {
     const { ctx, service } = this
     let id = ctx.params.id

@@ -17,7 +17,7 @@ module.exports = (app) => {
   router.get('/', controller.home.index);
   // 用户登录、获取用户信息
   router.post('/users/login', controller.user.login);
-  router.get('/users/getUserInfo', controller.user.getUserInfo);
+  router.get('/users/getUserInfo', jwt, controller.user.getUserInfo);
 
   router.get('/users/findAll', jwt, controller.user.findAll);
   router.get('/users/findById/:id', jwt, controller.user.findById);
