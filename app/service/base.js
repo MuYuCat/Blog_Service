@@ -47,6 +47,7 @@ class BaseService extends Service {
       await ctx.model[modelName].create(json)
       return '新增成功'
     } catch (error) {
+      console.log(error);
       ctx.throw(500, 'Server error');
     }
   }

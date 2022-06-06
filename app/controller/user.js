@@ -1,10 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-15 17:13:35
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-22 16:58:44
- * @Description: file content
- */
 'use strict'
 
 const BaseController = require('./base');
@@ -32,7 +25,6 @@ class UserController extends BaseController {
   // 获取用户信息
   async getUserInfo() {
     const { ctx, service } = this;
-    console.log(ctx.request.query);
     const token = ctx.header.authorization;
     const userInfo = await service.user.getUserInfo(token)
     this.success(userInfo);
@@ -53,7 +45,7 @@ class UserController extends BaseController {
     this.success(result, 'OK')
   }
 
-  //新增数据
+  // 新增用户
   async add() {
     const { ctx, service } = this
     let { username, password, avatar_url, sex, age } = ctx.request.body
@@ -68,7 +60,7 @@ class UserController extends BaseController {
     this.success(result)
   }
 
-  //修改数据
+  // 修改用户信息
   async edit() {
     const { ctx, service } = this
     let { id, username, nickname, avatar, sex, age } = ctx.request.body

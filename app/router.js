@@ -15,13 +15,17 @@ module.exports = (app) => {
   const jwt = middleware.jwt(app.config.jwt);
 
   router.get('/', controller.home.index);
-  // 用户登录、获取用户信息
+  // 用户 users
   router.post('/users/login', controller.user.login);
   router.get('/users/getUserInfo', jwt, controller.user.getUserInfo);
 
-  router.get('/users/findAll', jwt, controller.user.findAll);
-  router.get('/users/findById/:id', jwt, controller.user.findById);
-  router.post('/users/add', controller.user.add);
-  router.put('/users/edit', jwt, controller.user.edit);
-  router.delete('/users/del/:id', jwt, controller.user.del);
+  // 文章 article
+  router.post('/article/add', jwt, controller.article.add);
+  router.get('/article/findAll', jwt, controller.article.findAll);
+
+  // router.get('/users/findAll', jwt, controller.user.findAll);
+  // router.get('/users/findById/:id', jwt, controller.user.findById);
+  // router.post('/users/add', controller.user.add);
+  // router.put('/users/edit', jwt, controller.user.edit);
+  // router.delete('/users/del/:id', jwt, controller.user.del);
 };

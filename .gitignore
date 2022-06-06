@@ -13,3 +13,23 @@ run/
 typings/
 .nyc_output/
 test/
+dist/
+
+# vscode
+.vscode
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+
+.github
+.vscode
+/.github
+/.vscode
+

@@ -1,10 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-18 09:34:03
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-22 16:58:53
- * @Description: file content
- */
 'use strict'
 
 const BaseService = require('./base')

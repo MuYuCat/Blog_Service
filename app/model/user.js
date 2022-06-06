@@ -3,7 +3,7 @@
 const md5 = require('md5');
 
 module.exports = (app) => {
-  const { STRING, BIGINT, ENUM, DATE } = app.Sequelize
+  const { STRING, BIGINT, ENUM, DATE, TEXT } = app.Sequelize
   const User = app.model.define(
     'user',
     {
