@@ -1,11 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-15 15:24:37
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-22 11:54:08
- * @Description: file content
- */
-
 'use strict';
 
 module.exports = appInfo => {
@@ -17,14 +9,10 @@ module.exports = appInfo => {
 
   // add your middleware config here
   config.middleware = [ 'errorHandler' ];
-  // config.errorHandler = {
-  //   enable: true,
-  //   // match: '/user/findUserByUserId',
-  //   ignore: '/user/findUserByUserId',
-  // };
 
   // token加密密钥，自行配置
   config.jwt = {
+    expire: 7100,
     secret: 'www.muyucat.com',
   };
 
@@ -34,7 +22,7 @@ module.exports = appInfo => {
     throwError: true
   };
 
-  /* 连接mysql配置 */
+  /* sequelize连接mysql配置 */
   config.sequelize = {
     dialect: 'mysql',
     host: '121.199.160.17',
@@ -48,6 +36,43 @@ module.exports = appInfo => {
       connectTimeout:10000
     },
     define: {
+      // 取消数据表名复数
+      freezeTableName: true,
+      timestamps: true,
+      paranoid: true,
+      // 自动写入时间戳 created_at updated_at
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      // 字段生成软删除时间戳 deleted_at
+      deletedAt: 'deleted_at',
+      // 所有驼峰命名格式化
+      underscored: true
+    },
+    pool: {
+      max: 25,
+      min: 0,
+      idle: 10000
+    },
+  };
+  /* mysql连接mysql配置 */
+  config.mysql = {
+    client: {
+      // host
+      host: '121.199.160.17',
+      // 端口号
+      port: '3306',
+      // 用户名
+      user: "MuYuCat",
+      // 密码
+      password: "8023Melody",
+      // 数据库名
+      database: 'blog_data',
+    },
+    // 是否加载到 app 上，默认开启
+    app: true,
+    // 是否加载到 agent 上，默认关闭
+    agent: false,
+    default: {
       // 取消数据表名复数
       freezeTableName: true,
       timestamps: true,

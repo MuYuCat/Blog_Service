@@ -1,53 +1,53 @@
 'use strict'
 
 const BaseController = require('./base');
+const moment = require('moment');
+var Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 class ArticleController extends BaseController {
 
   // 新增文章
   async add() {
     const { ctx, service } = this
-    let { title, content, tags, status } = ctx.request.body
+    let { title, content, tags, url, type, status, author } = ctx.request.body
     let result = await service.article.add({
       id: new Date().valueOf(),
       title,
       content,
-      tags,
-      status: status || 'public'
+      tags: tags || null,
+      url: url || null,
+      type: type || null,
+      author,
+      status: status || '0',
+      created_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      deleted_at: null,
     })
     this.success(result)
   }
 
   // 查询所有文章
-  async findAll() {
+  async findArticle() {
     const { ctx, service } = this
-    let result = await service.article.findAll()
+    let { title, author, tags, status, beginTime, endTime } = ctx.request.query
+    const selectTime = beginTime && endTime
+    ?
+      `created_at BETWEEN '${moment(beginTime).format('YYYY-MM-DD')}' AND '${moment(endTime).add(1, 'days').format('YYYY-MM-DD')}'`
+    :
+      'created_at IS NOT NULL'
+    const where = {
+      title: title || 'id IS NOT NULL',
+      author: author || 'author IS NOT NULL',
+      tags: tags || 'tags IS NOT NULL',
+      status: (status && status !== 'all') ? status : 'status IS NOT NULL',
+      selectTime
+    }
+
+    let result = await service.article.findArticle(where)
     this.success(result);
   }
 
-  // // 修改文章
-  // async edit() {
-  //   const { ctx, service } = this
-  //   let { id, username, nickname, avatar, sex, age } = ctx.request.body
-  //   let result = await service.user.edit({ id, username, nickname, avatar, sex, age })
-  //   this.success(result)
-  // }
-
-  // // 删除文章
-  // async del() {
-  //   const { ctx, service } = this
-  //   let id = ctx.params.id
-  //   let result = await service.user.del(id)
-  //   this.success(result)
-  // }
-
-  // // 根据文章ID查文章
-  // async findById() {
-  //   const { ctx, service } = this
-  //   let id = ctx.params.id
-  //   let result = await service.user.findById(id)
-  //   this.success(result, 'OK')
-  // }
 }
 
 module.exports = ArticleController

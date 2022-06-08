@@ -13,9 +13,9 @@ class BaseService extends Service {
     }
   }
   //查询数据
-  async _findAll(modelName) {
+  async _findAll(modelName, option) {
     const { ctx, app } = this
-    const result = await ctx.model[modelName].findAll();
+    const result = await ctx.model[modelName].findAll(option);
     return result
   }
 

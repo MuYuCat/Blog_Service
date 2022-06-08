@@ -1,10 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-06 07:54:32
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-22 11:20:28
- * @Description: file content
- */
 'use strict';
 
 module.exports = () => {
@@ -46,9 +39,8 @@ module.exports = () => {
 
       // 从 error 对象上读出各个属性，设置到响应中
       ctx.body = {
-        code: err.status,
-        msg: error,
-        data: null,
+        code: err.status || 500,
+        msg: error
       };
     }
   };

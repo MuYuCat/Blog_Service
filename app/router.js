@@ -21,11 +21,6 @@ module.exports = (app) => {
 
   // 文章 article
   router.post('/article/add', jwt, controller.article.add);
-  router.get('/article/findAll', jwt, controller.article.findAll);
+  router.get('/article/findArticle', jwt, controller.article.findArticle);
 
-  // router.get('/users/findAll', jwt, controller.user.findAll);
-  // router.get('/users/findById/:id', jwt, controller.user.findById);
-  // router.post('/users/add', controller.user.add);
-  // router.put('/users/edit', jwt, controller.user.edit);
-  // router.delete('/users/del/:id', jwt, controller.user.del);
 };

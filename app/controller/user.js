@@ -14,10 +14,10 @@ class UserController extends BaseController {
     });
     const { username, password } = ctx.request.body;
     const md5pwd = md5(password + 'secret');
-    const where = {where: {
+    const where = {
       password: md5pwd,
       username: username,
-    },};
+    };
     const result = await service.user.login(where);
     this.success(result, '登陆成功');
   }
@@ -28,52 +28,6 @@ class UserController extends BaseController {
     const token = ctx.header.authorization;
     const userInfo = await service.user.getUserInfo(token)
     this.success(userInfo);
-  }
-
-  // 查询所有用户信息
-  async findAll() {
-    const { ctx, service } = this
-    let result = await service.user.findAll()
-    this.success(result);
-  }
-
-  // 根据用户ID查数据
-  async findById() {
-    const { ctx, service } = this
-    let id = ctx.params.id
-    let result = await service.user.findById(id)
-    this.success(result, 'OK')
-  }
-
-  // 新增用户
-  async add() {
-    const { ctx, service } = this
-    let { username, password, avatar_url, sex, age } = ctx.request.body
-    let result = await service.user.add({
-      id: new Date().valueOf(),
-      username,
-      password,
-      avatar_url,
-      sex,
-      age
-    })
-    this.success(result)
-  }
-
-  // 修改用户信息
-  async edit() {
-    const { ctx, service } = this
-    let { id, username, nickname, avatar, sex, age } = ctx.request.body
-    let result = await service.user.edit({ id, username, nickname, avatar, sex, age })
-    this.success(result)
-  }
-
-  //修改数据
-  async del() {
-    const { ctx, service } = this
-    let id = ctx.params.id
-    let result = await service.user.del(id)
-    this.success(result)
   }
 }
 

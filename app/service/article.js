@@ -5,23 +5,54 @@ const BaseService = require('./base')
 class ArticleService extends BaseService {
 
   // 新增文章
-  async add(json) {
+  async add(data) {
     const { ctx, app } = this;
-    const addInfo =  await this._add('Article', json);
-    if (addInfo) {
-      return '发布成功';
+    console.log('add article', data);
+    try {
+      let addInfo = await app.mysql.query(
+        `INSERT INTO article VALUES
+        (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [data.id,
+          data.title,
+          data.content,
+          data.tags,
+          data.url,
+          data.type,
+          data.status,
+          data.author,
+          data.created_at,
+          data.updated_at,
+          null]);
+      if (addInfo) {
+        return '发布成功';
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '发布失败');
     }
-    ctx.throw(500, '发布失败');
   }
 
   // 查询所有文章
-  async findAll() {
-    let rows = await this._findAll('Article')
-    let total = await this._count('Article')
-    if (rows && total) {
-      return { total, rows };
+  async findArticle(params) {
+    const { ctx, app } = this;
+    console.log('findArticle', params);
+    try {
+      const rows = await app.mysql.query(
+        `SELECT * FROM article WHERE
+          concat(${params.title}
+            AND ${params.author}
+            AND ${params.tags}
+            AND ${params.status}
+            AND ${params.selectTime})`);
+      console.log(rows)
+      let total = rows.length || 0;
+      if (rows) {
+        return { total, rows };
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '查询失败');
     }
-    ctx.throw(401, '发布失败');
   }
 
   // 根据ID查询文章
