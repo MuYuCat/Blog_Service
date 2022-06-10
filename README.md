@@ -113,6 +113,7 @@
       cd baseDir
       npm install --production
       tar -zcvf ../release.tgz .
+      tar -zcvf ../release.tgz --exclude=./node_modules --exclude=./.github --exclude=./.vscode --exclude=./typings --exclude=./logs
     ```
 2. 上传至服务器相应位置，在该位置进行解压缩
     ```

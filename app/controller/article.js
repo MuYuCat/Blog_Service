@@ -9,15 +9,26 @@ class ArticleController extends BaseController {
 
   // 新增文章
   async add() {
-    const { ctx, service } = this
-    let { title, content, tags, url, type, status, author } = ctx.request.body
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      title,
+      content,
+      tags,
+      url,
+      type,
+      status,
+      author
+    } = ctx.request.body
     let result = await service.article.add({
       id: new Date().valueOf(),
       title,
       content,
-      tags: tags || null,
-      url: url || null,
-      type: type || null,
+      tags: tags || '',
+      url: url || '',
+      type: type || '',
       author,
       status: status || '0',
       created_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
@@ -29,18 +40,26 @@ class ArticleController extends BaseController {
 
   // 查询所有文章
   async findArticle() {
-    const { ctx, service } = this
-    let { title, author, tags, status, beginTime, endTime } = ctx.request.query
-    const selectTime = beginTime && endTime
-    ?
-      `created_at BETWEEN '${moment(beginTime).format('YYYY-MM-DD')}' AND '${moment(endTime).add(1, 'days').format('YYYY-MM-DD')}'`
-    :
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      title,
+      author,
+      tags,
+      status,
+      beginTime,
+      endTime
+    } = ctx.request.query
+    const selectTime = beginTime && endTime ?
+      `created_at BETWEEN '${moment(beginTime).format('YYYY-MM-DD')}' AND '${moment(endTime).add(1, 'days').format('YYYY-MM-DD')}'` :
       'created_at IS NOT NULL'
     const where = {
-      title: title || 'id IS NOT NULL',
-      author: author || 'author IS NOT NULL',
-      tags: tags || 'tags IS NOT NULL',
-      status: (status && status !== 'all') ? status : 'status IS NOT NULL',
+      title: (title && `title = '${title}'`) || 'title IS NOT NULL',
+      author: (author && `author = '${author}'`) || 'author IS NOT NULL',
+      tags: (tags && `tags = '${tags}'`) || 'tags IS NOT NULL',
+      status: (status && status !== 'all') ? `status = ${status}` : 'status IS NOT NULL',
       selectTime
     }
 

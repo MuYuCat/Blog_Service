@@ -44,7 +44,7 @@
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
     "db:autoModels": "node ./database/autoModels",
-    "build": "mkdir dist & tar -zcvf ./dist/release.tgz .",
+    "build": "mkdir dist & tar -zcvf ./dist/release.tgz . --exclude=./node_modules",
     "open": "tar zxvf release.tgz"
   },
   "ci": {
