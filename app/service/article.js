@@ -6,12 +6,15 @@ class ArticleService extends BaseService {
 
   // 新增文章
   async add(data) {
-    const { ctx, app } = this;
+    const {
+      ctx,
+      app
+    } = this;
     console.log('add article', data);
     try {
       let addInfo = await app.mysql.query(
         `INSERT INTO article VALUES
-        (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [data.id,
           data.title,
           data.content,
@@ -22,7 +25,9 @@ class ArticleService extends BaseService {
           data.author,
           data.created_at,
           data.updated_at,
-          null]);
+          data.deleted_at,
+          data.introduction
+        ]);
       if (addInfo) {
         return '发布成功';
       }
@@ -32,9 +37,12 @@ class ArticleService extends BaseService {
     }
   }
 
-  // 查询所有文章
-  async findArticle(params) {
-    const { ctx, app } = this;
+  // 查询文章
+  async find(params) {
+    const {
+      ctx,
+      app
+    } = this;
     console.log('findArticle', params);
     try {
       const rows = await app.mysql.query(
@@ -45,9 +53,15 @@ class ArticleService extends BaseService {
             AND ${params.status}
             AND ${params.selectTime})`);
       console.log(rows)
+      rows.map((item) => {
+        item.tags = item.tags.split(",");
+      })
       let total = rows.length || 0;
       if (rows) {
-        return { total, rows };
+        return {
+          total,
+          rows
+        };
       }
     } catch (err) {
       console.log(err);
@@ -55,24 +69,68 @@ class ArticleService extends BaseService {
     }
   }
 
-  // 根据ID查询文章
-  async findById(article_id) {
-    return await this._findById('Article', article_id)
+  // 基于id查询文章
+  async findById(params) {
+    const {
+      ctx,
+      app
+    } = this;
+    console.log('findArticleById', params);
+    try {
+      const rows = await app.mysql.query(
+        `SELECT * FROM article WHERE
+          concat(${params.id})`);
+      console.log(rows)
+      if (rows) {
+        rows.map((item) => {
+          item.tags = item.tags.split(",");
+        })
+        const row = rows[0];
+        return {
+          row
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '查询失败');
+    }
   }
 
-
-  // 编辑文章
-  async edit() {
-    let data = await this._edit('Article', json)
-    if (!data) return 'Id传入有误'
-    return data
+  // 编辑文章状态
+  async edit(params) {
+    const {
+      ctx,
+      app
+    } = this;
+    console.log('editArticle', params);
+    try {
+      const res = await app.mysql.query(
+        `UPDATE article SET status='${params.status}', updated_at='${params.updated_at}' WHERE id='${params.id}'`);
+      if (res) {
+        return '编辑成功';
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '编辑失败');
+    }
   }
 
   // 删除文章
-  async del(article_id) {
-    let data = await this._delete('Article', article_id)
-    if (!data) return 'Id传入有误'
-    return data
+  async del(params) {
+    const {
+      ctx,
+      app
+    } = this;
+    console.log('delArticle', params);
+    try {
+      const delArticleInfo = await app.mysql.query(`DELETE FROM article WHERE id = '${params.id}'`);
+      if (delArticleInfo) {
+        return '删除成功';
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '删除失败');
+    }
   }
 }
 

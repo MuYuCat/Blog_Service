@@ -19,7 +19,7 @@ class UsersService extends BaseService {
           password: userInfo.password,
         }, app.config.jwt.secret, {
           noTimestamp: true,
-          expiresIn: '1m'
+          expiresIn: '12h'
         });
         return {
           token: token
