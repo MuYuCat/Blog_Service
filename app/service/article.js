@@ -14,18 +14,17 @@ class ArticleService extends BaseService {
     try {
       let addInfo = await app.mysql.query(
         `INSERT INTO article VALUES
-        (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [data.id,
           data.title,
           data.content,
+          data.html,
           data.tags,
           data.url,
-          data.type,
           data.status,
           data.author,
           data.created_at,
           data.updated_at,
-          data.deleted_at,
           data.introduction
         ]);
       if (addInfo) {
@@ -97,7 +96,7 @@ class ArticleService extends BaseService {
   }
 
   // 编辑文章状态
-  async edit(params) {
+  async editSwitch(params) {
     const {
       ctx,
       app
@@ -106,6 +105,27 @@ class ArticleService extends BaseService {
     try {
       const res = await app.mysql.query(
         `UPDATE article SET status='${params.status}', updated_at='${params.updated_at}' WHERE id='${params.id}'`);
+      if (res) {
+        return '编辑成功';
+      }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '编辑失败');
+    }
+  }
+
+  // 编辑文章
+  async edit(params) {
+    const {
+      ctx,
+      app
+    } = this;
+    console.log('editArticle', params);
+    try {
+      const res = await app.mysql.query(
+        'UPDATE article SET title=?,content=?,html=?,tags=?,url=?,status=?,introduction=?,updated_at=? WHERE id=?', [
+          params.title, params.content, params.html, params.tags, params.url, params.status, params.introduction, params.updated_at, params.id
+        ]);
       if (res) {
         return '编辑成功';
       }

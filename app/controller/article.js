@@ -14,9 +14,9 @@ class ArticleController extends BaseController {
     let {
       title,
       content,
+      html,
       tags,
       url,
-      type,
       status,
       author,
       introduction
@@ -25,14 +25,13 @@ class ArticleController extends BaseController {
       id: new Date().valueOf(),
       title,
       content,
+      html,
       tags: tags.toString() || '',
       url: url || '',
-      type: type || '',
       author,
       status: status || 0,
       created_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
       updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
-      deleted_at: null,
       introduction: introduction || '暂无简介'
     })
     this.success(result)
@@ -84,8 +83,8 @@ class ArticleController extends BaseController {
     this.success(result);
   }
 
-  // 编辑文章
-  async edit() {
+  // 编辑文章状态
+  async editSwitch() {
     const {
       ctx,
       service
@@ -100,7 +99,7 @@ class ArticleController extends BaseController {
       updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
     }
 
-    let result = await service.article.edit(where)
+    let result = await service.article.editSwitch(where)
     this.success(result);
   }
 
@@ -123,6 +122,36 @@ class ArticleController extends BaseController {
       id: id,
     })
     this.success(result);
+  }
+
+  // 编辑文章
+  async edit() {
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      id,
+      title,
+      content,
+      html,
+      tags,
+      url,
+      status,
+      introduction
+    } = ctx.request.body
+    let result = await service.article.edit({
+      id,
+      title,
+      content,
+      html,
+      tags: tags.toString() || '',
+      url: url || '',
+      status: status || 0,
+      updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      introduction: introduction || '暂无简介'
+    })
+    this.success(result)
   }
 
 }

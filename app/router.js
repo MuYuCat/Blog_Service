@@ -20,9 +20,10 @@ module.exports = (app) => {
   // 文章 article
   router.post('/article/add', jwt, controller.article.add);
   router.get('/article/find', jwt, controller.article.find);
-  router.post('/article/edit', jwt, controller.article.edit);
+  router.post('/article/switch', jwt, controller.article.editSwitch);
   router.get('/article/findId', jwt, controller.article.findById);
   router.post('/article/del', jwt, controller.article.del);
+  router.post('/article/edit', jwt, controller.article.edit);
 
   // 字典 dict
   router.post('/dict/addTags', jwt, controller.dict.addTags);
