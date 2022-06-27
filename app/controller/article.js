@@ -30,8 +30,8 @@ class ArticleController extends BaseController {
       url: url || '',
       author,
       status: status || 0,
-      created_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
-      updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      created_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      updated_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       introduction: introduction || '暂无简介'
     })
     this.success(result)
@@ -55,9 +55,9 @@ class ArticleController extends BaseController {
       `created_at BETWEEN '${moment(beginTime).format('YYYY-MM-DD')}' AND '${moment(endTime).add(1, 'days').format('YYYY-MM-DD')}'` :
       'created_at IS NOT NULL'
     const where = {
-      title: (title && `title = '%${title}'%`) || 'title IS NOT NULL',
-      author: (author && `author = '${author}'`) || 'author IS NOT NULL',
-      tags: (tags && `tags = '${tags}'`) || 'tags IS NOT NULL',
+      title: (title && `INSTR(title,'${title}')>0`) || 'title IS NOT NULL', // title = '%${title}%'
+      author: (author !== '全部' && `author = '${author}'`) || 'author IS NOT NULL',
+      tags: (tags !== '全部' && `INSTR(tags,'${tags}')>0`) || 'tags IS NOT NULL',
       status: (status && status !== 'all') ? `status = ${status}` : 'status IS NOT NULL',
       selectTime
     }
@@ -96,7 +96,7 @@ class ArticleController extends BaseController {
     const where = {
       id: id,
       status: +status === 0 ? 1 : 0,
-      updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      updated_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
     }
 
     let result = await service.article.editSwitch(where)
@@ -148,7 +148,7 @@ class ArticleController extends BaseController {
       tags: tags.toString() || '',
       url: url || '',
       status: status || 0,
-      updated_at: moment(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+      updated_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       introduction: introduction || '暂无简介'
     })
     this.success(result)

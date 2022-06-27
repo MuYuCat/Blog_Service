@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "MuYuCat",
-    "password": "8023Melody",
-    "database": "blog_data",
-    "host": "121.199.160.17",
-    "dialect": "mysql"
-  }
-}

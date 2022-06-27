@@ -1,11 +1,3 @@
-/*
- * @Author: MuYuCat
- * @Date: 2022-04-21 14:55:32
- * @LastEditors: MuYuCat
- * @LastEditTime: 2022-04-22 15:10:32
- * @Description: file content
- */
-
 // middleware/jwt.js
 
 // 在 “router 中使用中间件” 中用不到

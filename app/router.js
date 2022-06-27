@@ -29,5 +29,9 @@ module.exports = (app) => {
   router.post('/dict/addTags', jwt, controller.dict.addTags);
   router.get('/dict/getTags', jwt, controller.dict.getTags);
   router.post('/dict/delTags', jwt, controller.dict.delTags);
+  router.get('/dict/getAuthors', jwt, controller.dict.getAuthors);
+
+  // 埋点日志 log
+  router.post('/log/send', controller.log.send);
 
 };

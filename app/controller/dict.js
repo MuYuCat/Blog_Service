@@ -56,6 +56,16 @@ class DictController extends BaseController {
     })
     this.success(result);
   }
+
+  // 查询author dict
+  async getAuthors() {
+    const {
+      ctx,
+      service
+    } = this
+    let result = await service.dict.getAuthors()
+    this.success(result);
+  }
 }
 
 module.exports = DictController

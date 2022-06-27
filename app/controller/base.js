@@ -18,6 +18,11 @@ class BaseController extends Controller {
       msg,
       data,
     };
+  };
+  sendSuccess() {
+    const { ctx } = this;
+    ctx.status = 200;
+    ctx.body = null;
   }
 }
 

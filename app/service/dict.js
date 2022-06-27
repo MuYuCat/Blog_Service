@@ -32,7 +32,7 @@ class DictService extends BaseService {
       app
     } = this;
     try {
-      const rows = await app.mysql.query(`SELECT tagsValue as dictValue,tagsName as dictName FROM dictParam`);
+      const rows = await app.mysql.query(`SELECT tagsName as dictName FROM dictParam`);
       console.log(rows)
       if (rows) {
         return {
@@ -61,6 +61,26 @@ class DictService extends BaseService {
       ctx.throw(500, '删除失败');
     }
   }
+
+    // 获取 author dict
+    async getAuthors() {
+      const {
+        ctx,
+        app
+      } = this;
+      try {
+        const rows = await app.mysql.query(`SELECT DISTINCT author as dictLabel FROM article`);
+        console.log(rows)
+        if (rows) {
+          return {
+            rows
+          };
+        }
+      } catch (err) {
+        console.log(err);
+        ctx.throw(500, '查询失败');
+      }
+    }
 }
 
 module.exports = DictService

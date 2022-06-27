@@ -10,7 +10,6 @@ class ArticleService extends BaseService {
       ctx,
       app
     } = this;
-    console.log('add article', data);
     try {
       let addInfo = await app.mysql.query(
         `INSERT INTO article VALUES

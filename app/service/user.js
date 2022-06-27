@@ -14,11 +14,10 @@ class UsersService extends BaseService {
       const userInfo = await app.mysql.query('SELECT * FROM users WHERE password = ? AND username = ?', [option.password, option.username]);
       if (userInfo) {
         const token = app.jwt.sign({
-          id: userInfo.id,
-          username: userInfo.username,
-          password: userInfo.password,
+          id: userInfo[0].id,
+          username: userInfo[0].username,
+          password: userInfo[0].password,
         }, app.config.jwt.secret, {
-          noTimestamp: true,
           expiresIn: '12h'
         });
         return {
@@ -39,8 +38,8 @@ class UsersService extends BaseService {
     } = this;
     // 解密token
     try {
-      const decoded = ctx.app.jwt.verify(token, ctx.app.config.jwt.secret);
-      console.log(decoded.id)
+      const decoded = ctx.app.jwt.verify(token, app.config.jwt.secret);
+      console.log(decoded, app.config.jwt.secret);
       if (decoded.id) {
         const userInfo = await app.mysql.query('SELECT age,avatar_url,created_at,deleted_at,id,sex,updated_at,username FROM users WHERE id = ?', [decoded.id]);
         if (userInfo) {

@@ -22,38 +22,6 @@ module.exports = appInfo => {
     throwError: true
   };
 
-  /* sequelize连接mysql配置 */
-  config.sequelize = {
-    dialect: 'mysql',
-    host: '121.199.160.17',
-    port: 3306,
-    database: 'blog_data',
-    username: "MuYuCat",
-    password: "8023Melody",
-    timezone: '+08:00',
-    exclude: 'index.js',
-    dialectOptions: {
-      connectTimeout:10000
-    },
-    define: {
-      // 取消数据表名复数
-      freezeTableName: true,
-      timestamps: true,
-      paranoid: true,
-      // 自动写入时间戳 created_at updated_at
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
-      // 字段生成软删除时间戳 deleted_at
-      deletedAt: 'deleted_at',
-      // 所有驼峰命名格式化
-      underscored: true
-    },
-    pool: {
-      max: 25,
-      min: 0,
-      idle: 10000
-    },
-  };
   /* mysql连接mysql配置 */
   config.mysql = {
     client: {
