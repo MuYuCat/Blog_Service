@@ -15,6 +15,7 @@
     "egg-sequelize": "^6.0.0",
     "egg-valparams": "^1.4.5",
     "md5": "^2.3.0",
+    "micro-fs": "^1.0.3",
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
@@ -44,7 +45,7 @@
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
     "db:autoModels": "node ./database/autoModels",
-    "build": "mkdir dist & tar -zcvf ./dist/release.tgz . --exclude=./node_modules --exclude=../node_modules --exclude=node_modules",
+    "build": "mkdir dist & tar -zcvf ./dist/release.tgz .  --exclude=./node_modules",
     "open": "tar zxvf release.tgz"
   },
   "ci": {

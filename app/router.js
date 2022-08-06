@@ -34,4 +34,12 @@ module.exports = (app) => {
   // 埋点日志 log
   router.post('/log/send', controller.log.send);
 
+  // wx小程序
+  // user登陆 wxUser
+  router.post('/wxLogin/getSession', controller.wx.login.getSession);
+  router.post('/wxLogin/add', controller.wx.login.add);
+  router.post('/wxLogin/find', controller.wx.login.findById);
+  // 活动 wxTask
+  router.post('/wxTask/add', controller.wx.task.add);
+
 };

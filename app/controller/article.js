@@ -28,7 +28,7 @@ class ArticleController extends BaseController {
       html,
       tags: tags.toString() || '',
       url: url || '',
-      author,
+      author: author || '未知',
       status: status || 0,
       created_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       updated_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),

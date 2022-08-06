@@ -14,6 +14,8 @@ typings/
 .nyc_output/
 test/
 dist/
+.github/
+.vscode/
 
 # vscode
 .vscode
@@ -28,8 +30,6 @@ dist/
 /build
 /dist
 
-.github
-.vscode
 /.github
 /.vscode
 
