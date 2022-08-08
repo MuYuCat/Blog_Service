@@ -71,5 +71,39 @@ class TaskService extends BaseService {
       ctx.throw(500, '创建失败');
     }
   }
+
+  // 基于id查询活动
+  async findById(params) {
+    const {
+      ctx,
+      app
+    } = this;
+    console.log('findTaskById', params);
+    const conn = await app.mysql.beginTransaction();
+    try {
+      const data = await conn.query(
+        `SELECT * FROM wxTask WHERE
+          concat(${params.id}) ORDER BY created_at DESC`);
+      data.map(async (mainTask)=>{
+        const where = `parentsId = '${mainTask.taskId}'`
+        const taskList = await conn.query(
+          `SELECT * FROM wxTaskItem WHERE
+            concat(${where}) ORDER BY created_at DESC`);
+        console.log(taskList);
+        mainTask.taskList = taskList;
+      })
+      // const taskList = await conn.query(
+      //   `SELECT * FROM wxTaskItem WHERE
+      //     concat(${params.id})`);
+      console.log(data)
+      await conn.commit();
+      return data;
+    } catch (err) {
+      await conn.rollback();
+      console.log(err);
+      ctx.throw(500, '查询失败');
+    }
+  }
+  
 }
 module.exports = TaskService
