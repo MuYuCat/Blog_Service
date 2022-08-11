@@ -24,16 +24,16 @@ module.exports = (app) => {
   router.get('/article/findId', jwt, controller.article.findById);
   router.post('/article/del', jwt, controller.article.del);
   router.post('/article/edit', jwt, controller.article.edit);
-  
+
   // 字典 dict
   router.post('/dict/addTags', jwt, controller.dict.addTags);
   router.get('/dict/getTags', jwt, controller.dict.getTags);
   router.post('/dict/delTags', jwt, controller.dict.delTags);
   router.get('/dict/getAuthors', jwt, controller.dict.getAuthors);
-  
+
   // 埋点日志 log
   router.post('/log/send', controller.log.send);
-  
+
   // wx小程序
   // user登陆 wxUser
   router.post('/wxLogin/getSession', controller.wx.login.getSession);
@@ -41,6 +41,9 @@ module.exports = (app) => {
   router.post('/wxLogin/find', controller.wx.login.findById);
   // 活动 wxTask
   router.post('/wxTask/add', controller.wx.task.add);
+  router.post('/wxTask/edit', controller.wx.task.edit);
   router.post('/wxTask/findByUserId',controller.wx.task.findByUserId);
-  
+  router.post('/wxTask/stop',controller.wx.task.stop);
+  router.post('/wxTask/delect',controller.wx.task.delect);
+  router.post('/wxTask/update',controller.wx.task.update);
 };
