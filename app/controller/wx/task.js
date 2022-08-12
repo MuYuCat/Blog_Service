@@ -79,7 +79,7 @@ class wxTaskController extends BaseController {
       userId
     } = ctx.request.body
     const where = {
-      id: `userId = '${userId}'`
+      id: `userId = '${userId}' AND status != 'delect' `
     }
 
     let result = await service.wx.task.findById(where)
@@ -151,12 +151,14 @@ class wxTaskController extends BaseController {
       dateArr,
       selectDate,
       taskMsg,
-      taskList,
       status,
       progress,
-      timeTitle
+      timeTitle,
+      taskList,
+      delList,
     } = ctx.request.body
     let isTaskList = JSON.parse(taskList);
+    let isDelList = JSON.parse(delList);
     console.log('isTaskList', isTaskList);
     isTaskList.forEach(task => {
       task.userId = userId || '',
@@ -178,6 +180,15 @@ class wxTaskController extends BaseController {
       task.status = task.status || 'normal',
       task.progress = task.progress || 0
     })
+    isDelList.forEach(task => {
+      task.userId = userId || '',
+      task.parentsId = taskId || '',
+      task.taskId = task.taskId || '',
+      task.updated_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      task.stop_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      task.deleted_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      task.status = 'delect'
+    })
     let result = await service.wx.task.edit({
       taskId: taskId || '',
       taskName: taskName||'',
@@ -192,6 +203,7 @@ class wxTaskController extends BaseController {
       progress: progress || 0,
       timeTitle: timeTitle || '',
       taskList: isTaskList || [],
+      delList: isDelList || [],
     })
     this.success(result)
   }

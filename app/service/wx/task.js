@@ -95,7 +95,7 @@ class TaskService extends BaseService {
         `SELECT * FROM wxTask WHERE
           concat(${params.id}) ORDER BY created_at DESC`);
       data.map(async (mainTask)=>{
-        const where = `parentsId = '${mainTask.taskId}'`
+        const where = `parentsId = '${mainTask.taskId}' AND status != 'delect' `
         const taskList = await conn.query(
           `SELECT * FROM wxTaskItem WHERE
             concat(${where}) ORDER BY created_at DESC`);
@@ -140,7 +140,7 @@ class TaskService extends BaseService {
       app
     } = this;
     try {
-      const res = await app.mysql.query(
+      await app.mysql.query(
         'UPDATE wxTask SET status=?,updated_at=?,deleted_at=?  WHERE taskId=?', [
         params.status, params.updated_at, params.deleted_at, params.taskId
       ]);
@@ -241,15 +241,74 @@ class TaskService extends BaseService {
           }
         }
       })
+      data.delList.map(async (task) => {
+        console.log('task', task);
+        if (task.taskId) {
+          try {
+            await conn.query(
+              'UPDATE wxTaskItem SET updated_at=?,stop_at=?,deleted_at=?,status=? WHERE taskId=?',
+              [
+                task.updated_at,
+                task.stop_at,
+                task.deleted_at,
+                task.status,
+                task.taskId,
+              ]
+            );
+            // await conn.commit();
+          } catch(err) {
+            console.log(err);
+            // 错误事务回滚
+            await conn.rollback();
+            // 返回错误信息
+            ctx.throw(500, '编辑失败');
+            throw err;
+          }
+        } else {
+          const taskId = uuid.v1();
+          try {
+            await conn.query(
+              `INSERT INTO wxTaskItem VALUES
+              (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                task.userId,
+                task.parentsId,
+                taskId,
+                task.taskName,
+                task.dateType,
+                task.beginTime,
+                task.endTime,
+                task.timeArr && task.timeArr.join(',') || '',
+                task.selectDate,
+                task.taskMsg,
+                task.created_at,
+                task.updated_at,
+                task.stop_at,
+                task.deleted_at,
+                task.status,
+                task.progress,
+              ]
+            );
+            // await conn.commit();
+          } catch(err) {
+            console.log(err);
+            // 错误事务回滚
+            await conn.rollback();
+            // 返回错误信息
+            ctx.throw(500, '编辑失败');
+            throw err;
+          }
+        }
+      })
       // 提交事务
       await conn.commit();
-      return '创建成功';
+      return '编辑成功';
     } catch (err) {
       // 错误事务回滚
       await conn.rollback();
       // 返回错误信息
       console.log(err);
-      ctx.throw(500, '创建失败');
+      ctx.throw(500, '编辑失败');
     }
   }
 
@@ -274,7 +333,7 @@ class TaskService extends BaseService {
         console.log('task', task);
         try {
             await conn.query(
-              'UPDATE wxTaskItem SET updated_at=?,status=?,progress=? WHERE taskId=?',
+              'UPDATE wxTaskItem SET updated_at=?,status=?,progress=? WHERE taskId=? ',
               [
                 task.updated_at,
                 task.status,
@@ -288,19 +347,19 @@ class TaskService extends BaseService {
             // 错误事务回滚
             await conn.rollback();
             // 返回错误信息
-            ctx.throw(500, '创建失败');
+            ctx.throw(500, '更新失败');
             throw err;
         }
       })
       // 提交事务
       await conn.commit();
-      return '创建成功';
+      return '更新成功';
     } catch (err) {
       // 错误事务回滚
       await conn.rollback();
       // 返回错误信息
       console.log(err);
-      ctx.throw(500, '创建失败');
+      ctx.throw(500, '更新失败');
     }
   }
 
