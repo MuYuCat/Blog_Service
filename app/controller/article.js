@@ -154,6 +154,15 @@ class ArticleController extends BaseController {
     this.success(result)
   }
 
+    // 查询blog文章
+    async findBlog() {
+      const {
+        service
+      } = this
+      let result = await service.article.findBlog()
+      this.success(result);
+    }
+
 }
 
 module.exports = ArticleController

@@ -24,6 +24,7 @@ module.exports = (app) => {
   router.get('/article/findId', jwt, controller.article.findById);
   router.post('/article/del', jwt, controller.article.del);
   router.post('/article/edit', jwt, controller.article.edit);
+  router.get('/article/findBlog', controller.article.findBlog);
 
   // 字典 dict
   router.post('/dict/addTags', jwt, controller.dict.addTags);

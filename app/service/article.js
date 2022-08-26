@@ -151,6 +151,32 @@ class ArticleService extends BaseService {
       ctx.throw(500, '删除失败');
     }
   }
+
+    // 查询blog文章
+    async findBlog() {
+      const {
+        ctx,
+        app
+      } = this;
+      try {
+        const rows = await app.mysql.query(
+          `SELECT id, title, tags, updated_at, introduction FROM article WHERE status = ? ORDER BY updated_at DESC`, [1]);
+        console.log(rows)
+        rows.map((item) => {
+          item.tags = item.tags.split(",");
+        })
+        let total = rows.length || 0;
+        if (rows) {
+          return {
+            total,
+            rows
+          };
+        }
+      } catch (err) {
+        console.log(err);
+        ctx.throw(500, '查询失败');
+      }
+    }
 }
 
 module.exports = ArticleService
