@@ -49,7 +49,7 @@ class ArticleService extends BaseService {
             AND ${params.author}
             AND ${params.tags}
             AND ${params.status}
-            AND ${params.selectTime})`);
+            AND ${params.selectTime}) ORDER BY updated_at DESC`);
       console.log(rows)
       rows.map((item) => {
         item.tags = item.tags.split(",");
@@ -152,31 +152,31 @@ class ArticleService extends BaseService {
     }
   }
 
-    // 查询blog文章
-    async findBlog() {
-      const {
-        ctx,
-        app
-      } = this;
-      try {
-        const rows = await app.mysql.query(
-          `SELECT id, title, tags, updated_at, introduction FROM article WHERE status = ? ORDER BY updated_at DESC`, [1]);
-        console.log(rows)
-        rows.map((item) => {
-          item.tags = item.tags.split(",");
-        })
-        let total = rows.length || 0;
-        if (rows) {
-          return {
-            total,
-            rows
-          };
-        }
-      } catch (err) {
-        console.log(err);
-        ctx.throw(500, '查询失败');
+  // 查询blog文章
+  async findBlog() {
+    const {
+      ctx,
+      app
+    } = this;
+    try {
+      const rows = await app.mysql.query(
+        `SELECT id, title, tags, updated_at, introduction FROM article WHERE status = ? ORDER BY updated_at DESC`, [1]);
+      console.log(rows)
+      rows.map((item) => {
+        item.tags = item.tags.split(",");
+      })
+      let total = rows.length || 0;
+      if (rows) {
+        return {
+          total,
+          rows
+        };
       }
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '查询失败');
     }
+  }
 }
 
 module.exports = ArticleService

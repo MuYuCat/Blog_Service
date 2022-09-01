@@ -21,7 +21,7 @@ module.exports = (app) => {
   router.post('/article/add', jwt, controller.article.add);
   router.get('/article/find', jwt, controller.article.find);
   router.post('/article/switch', jwt, controller.article.editSwitch);
-  router.get('/article/findId', jwt, controller.article.findById);
+  router.get('/article/findId', controller.article.findById);
   router.post('/article/del', jwt, controller.article.del);
   router.post('/article/edit', jwt, controller.article.edit);
   router.get('/article/findBlog', controller.article.findBlog);
@@ -31,6 +31,20 @@ module.exports = (app) => {
   router.get('/dict/getTags', jwt, controller.dict.getTags);
   router.post('/dict/delTags', jwt, controller.dict.delTags);
   router.get('/dict/getAuthors', jwt, controller.dict.getAuthors);
+  router.post('/dict/addMaterialTags', jwt, controller.dict.addMaterialTags);
+  router.get('/dict/getMaterialTags', jwt, controller.dict.getMaterialTags);
+  router.post('/dict/editMaterialTags', jwt, controller.dict.editMaterialTags);
+  router.post('/dict/delMaterialTags', jwt, controller.dict.delMaterialTags);
+  router.post('/dict/addSubMaterialTags', jwt, controller.dict.addSubMaterialTags);
+  router.get('/dict/getAllMaterialTags', controller.dict.getAllMaterialTags);
+  router.post('/dict/getMaterialById', jwt, controller.dict.getMaterialById);
+  router.post('/dict/updateSubMaterialTags', jwt, controller.dict.updateSubMaterialTags);
+  router.post('/dict/delSubMaterial', jwt, controller.dict.delSubMaterial);
+  // tags 排序
+  router.get('/dict/getMaterialTagsRank', jwt, controller.dict.getMaterialTagsRank);
+  router.post('/dict/changeMaterialTags', jwt, controller.dict.changeMaterialTags);
+  router.post('/dict/getSubMaterialTagsRank', jwt, controller.dict.getSubMaterialTagsRank);
+  router.post('/dict/changeSubMaterialTags', jwt, controller.dict.changeSubMaterialTags);
 
   // 埋点日志 log
   router.post('/log/send', controller.log.send);
