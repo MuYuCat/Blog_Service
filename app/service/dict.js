@@ -273,6 +273,8 @@ class DictService extends BaseService {
           await conn.query(
             `UPDATE material SET rank=? WHERE id= ?`, [tag.rank, tag.id]);
         })
+      } else {
+        rank = data.rank;
       }
       await conn.query(`UPDATE material SET tag=?, title=?, introduction=?, url=?, status=?, author=?, updated_at=?, rank=? WHERE id= ?`,
       [data.tag,
