@@ -5,47 +5,53 @@
 
 ### 项目结构
 ```
-.
-├── .github                     # github Action ci 相关配置
-├── app                         # 应用源码
-│   ├── controller              # 控制器文件
-│   │   ├── base                # 基础控制器
-│   │   ├── home                # 主页面控制器
-│   │   └── user                # 登陆控制器
-│   ├── model                   # 数据库model文件
-│   │   └── user                # user数据库
-│   ├── public                  # 静态文件
-│   ├── service                 # 服务接口文件
-│   │   ├── base                # 基础接口方法
-│   │   └── user                # 登陆接口方法
-│   └── router                  # 路由主控页面
-├── config                      # 环境配置文件
-│   ├── config.default          # 默认环境配置
-│   └── plugin                  # 插件环境配置
-├── database                    # migrations插件文件
-│   ├── migrations              # 数据库迁移设计文件
-│   │   └── users               # users数据库
-│   └── config.json             # 数据库环境配置
-├── logs                        # 项目自动生成的日志文件
-├── run                         # 项目自动生成的文件
-├── test                        # 项目自动生成的文件
-├── typings                     # 项目自动生成的类型相关文件
-├── .autod.conf.js              # 调用配置文件
-├── .editorconfig               # editorConfig 配置文件
-├── .eslintrc.js                # eslint 配置文件
-├── .gitignore                  # git 排除配置文件
-├── .prettierrc                 # prettier 配置文件
-├── .sequelizerc                # sequelizerc 配置文件
-├── .travis.yml                 # 数据库迁移配置文件
-├── appveyor.yml                # 自动构建文件
-├── jsconfig.json                                
-├── package-lock.json
-├── package.json
-└── README.md
-
+Blog_Service
+├─ .autod.conf.js
+├─ .editorconfig
+├─ .eslintignore
+├─ .eslintrc.js
+├─ .gitignore
+├─ .prettierrc
+├─ .sequelizerc
+├─ .travis.yml
+├─ README.md                  // README
+├─ app
+│  ├─ controller              // 控制器
+│  │  ├─ article.js           // 文章
+│  │  ├─ base.js              // 基础
+│  │  ├─ dict.js              // 字典
+│  │  ├─ home.js              // 初始化
+│  │  ├─ log.js               // 埋点
+│  │  ├─ user.js              // 登陆
+│  │  └─ wx                   // 微信小程序
+│  │     ├─ login.js          // 登陆
+│  │     └─ task.js           // 活动
+│  ├─ middleware
+│  │  ├─ errorHandler.js      // 错误统一处理
+│  │  └─ jwt.js               // jwt鉴权
+│  ├─ model                   // Eggjs数据库(x)
+│  │  ├─ article.js
+│  │  └─ user.js
+│  ├─ public                  // 公共文件(x)
+│  ├─ router.js               // 接口路由
+│  └─ service                 // 服务器
+│     ├─ article.js           // 文章
+│     ├─ base.js              // 基础
+│     ├─ dict.js              // 字典
+│     ├─ log.js               // 埋点
+│     ├─ user.js              // 登陆
+│     └─ wx                   // 微信小程序
+│        ├─ login.js          // 登陆
+│        └─ task.js           // 活动
+├─ appveyor.yml
+├─ config
+│  ├─ config.default.js
+│  └─ plugin.js
+├─ jsconfig.json
+└─ package.json
 ```
-## 配置MySQL数据库
-
+### 数据库
+> Egg 推荐sequelize语法 (x)
 1. 安装并配置egg-sequelize插件（它会辅助我们将定义好的 Model 对象加载到 app 和 ctx 上）和mysql2模块：
     ```
     npm install --save egg-sequelize mysql2
@@ -99,6 +105,14 @@
     npx sequelize db:migrate:undo:all
     ```
 
+
+> 使用MySQL语法 (v)
+
+1. 使用Navicat 新建MySQL数据库
+2. 服务端使用MySql语法进行开发
+    - 不推荐使用拼接方法，而是使用Eggjs的query写法
+
+
 ## 部署nginx服务器
 > 提前下载好npm
 1. 将代码打包
@@ -106,7 +120,6 @@
       cd baseDir
       npm install --production
       tar -zcvf ../release.tgz .
-      tar -zcvf ../release.tgz --exclude=./node_modules --exclude=./.github --exclude=./.vscode --exclude=./typings --exclude=./logs
     ```
 2. 上传至服务器相应位置，在该位置进行解压缩
     ```
@@ -116,3 +129,4 @@
     ```
       npm start
     ```
+
