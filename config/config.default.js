@@ -13,7 +13,7 @@ module.exports = appInfo => {
   // token加密密钥，自行配置
   config.jwt = {
     expire: 7100,
-    secret: 'www.muyucat.com',
+    secret: '',
   };
 
   // 参数校验
@@ -26,15 +26,15 @@ module.exports = appInfo => {
   config.mysql = {
     client: {
       // host
-      host: '121.199.160.17',
+      host: '',
       // 端口号
-      port: '3306',
+      port: '',
       // 用户名
-      user: "MuYuCat",
+      user: "",
       // 密码
-      password: "8023Melody",
+      password: "",
       // 数据库名
-      database: 'blog_data',
+      database: '',
     },
     // 是否加载到 app 上，默认开启
     app: true,
