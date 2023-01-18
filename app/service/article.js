@@ -1,6 +1,6 @@
 'use strict'
 
-const BaseService = require('./base')
+const BaseService = require('./base');
 
 class ArticleService extends BaseService {
 
@@ -169,7 +169,7 @@ class ArticleService extends BaseService {
       if (rows) {
         return {
           total,
-          rows
+          rows,
         };
       }
     } catch (err) {

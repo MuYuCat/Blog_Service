@@ -48,6 +48,8 @@ module.exports = (app) => {
 
   // 埋点日志 log
   router.post('/log/send', controller.log.send);
+  // 获取ip
+  router.get('/getIp', controller.ip.getIp);
 
   // wx小程序
   // user登陆 wxUser
