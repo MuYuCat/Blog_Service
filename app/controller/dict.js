@@ -215,7 +215,33 @@ class DictController extends BaseController {
     this.success(result);
   }
 
+  // tags排序 新版
   // tags排序
+  async dragMaterialTagRank() {
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      changeList
+    } = ctx.request.body
+    let result = await service.dict.dragMaterialTagRank({changeList})
+    this.success(result);
+  }
+  // subTags排序
+  async dragMaterialSubTagRank() {
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      changeList
+    } = ctx.request.body
+    let result = await service.dict.dragMaterialSubTagRank({changeList})
+    this.success(result);
+  }
+
+  // tags排序 旧版
   // 查询tags排序
   async getMaterialTagsRank(data) {
     const {
