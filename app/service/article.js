@@ -42,19 +42,27 @@ class ArticleService extends BaseService {
       app
     } = this;
     console.log('findArticle', params);
+    const conn = await app.mysql.beginTransaction();
     try {
-      const rows = await app.mysql.query(
+      const rows = await conn.query(
+        `SELECT * FROM article WHERE
+          concat(${params.title}
+            AND ${params.author}
+            AND ${params.tags}
+            AND ${params.status}
+            AND ${params.selectTime}) ORDER BY updated_at DESC LIMIT ${params.pageSize} OFFSET ${(params.pageNum - 1) * params.pageSize} `);
+      const totalRows = await conn.query(
         `SELECT * FROM article WHERE
           concat(${params.title}
             AND ${params.author}
             AND ${params.tags}
             AND ${params.status}
             AND ${params.selectTime}) ORDER BY updated_at DESC`);
-      console.log(rows)
+      await conn.commit();
       rows.map((item) => {
         item.tags = item.tags.split(",");
       })
-      let total = rows.length || 0;
+      let total = totalRows.length || 0;
       if (rows) {
         return {
           total,

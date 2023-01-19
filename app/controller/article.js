@@ -49,7 +49,9 @@ class ArticleController extends BaseController {
       tags,
       status,
       beginTime,
-      endTime
+      endTime,
+      pageSize,
+      pageNum
     } = ctx.request.query
     const selectTime = beginTime && endTime ?
       `created_at BETWEEN '${moment(beginTime).format('YYYY-MM-DD')}' AND '${moment(endTime).add(1, 'days').format('YYYY-MM-DD')}'` :
@@ -59,7 +61,9 @@ class ArticleController extends BaseController {
       author: (author !== '全部' && `author = '${author}'`) || 'author IS NOT NULL',
       tags: (tags !== '全部' && `INSTR(tags,'${tags}')>0`) || 'tags IS NOT NULL',
       status: (status && status !== 'all') ? `status = ${status}` : 'status IS NOT NULL',
-      selectTime
+      selectTime,
+      pageSize,
+      pageNum
     }
 
     let result = await service.article.find(where)
