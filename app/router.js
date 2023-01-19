@@ -40,7 +40,10 @@ module.exports = (app) => {
   router.post('/dict/getMaterialById', jwt, controller.dict.getMaterialById);
   router.post('/dict/updateSubMaterialTags', jwt, controller.dict.updateSubMaterialTags);
   router.post('/dict/delSubMaterial', jwt, controller.dict.delSubMaterial);
-  // tags 排序
+  // tags 排序 新版
+  router.post('/tag/dragMaterialTagRank', jwt, controller.dict.dragMaterialTagRank);
+  router.post('/tag/dragMaterialSubTagRank', jwt, controller.dict.dragMaterialSubTagRank);
+  // tags 排序 旧版
   router.get('/dict/getMaterialTagsRank', jwt, controller.dict.getMaterialTagsRank);
   router.post('/dict/changeMaterialTags', jwt, controller.dict.changeMaterialTags);
   router.post('/dict/getSubMaterialTagsRank', jwt, controller.dict.getSubMaterialTagsRank);
@@ -48,6 +51,8 @@ module.exports = (app) => {
 
   // 埋点日志 log
   router.post('/log/send', controller.log.send);
+  // 获取ip
+  router.get('/getIp', controller.ip.getIp);
 
   // wx小程序
   // user登陆 wxUser

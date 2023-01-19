@@ -214,7 +214,7 @@ class DictService extends BaseService {
     const conn = await app.mysql.beginTransaction();
     try {
       const data = await conn.query(
-        `SELECT materialTag as tag FROM dictParam WHERE materialTag IS NOT NULL ORDER BY materialRank`);
+        `SELECT materialTag as tag, materialRank as rank  FROM dictParam WHERE materialTag IS NOT NULL ORDER BY materialRank`);
       data.map(async (mainTag)=>{
         const where = `tag = '${mainTag.tag}'`
         const tagList = await conn.query(
@@ -312,7 +312,50 @@ class DictService extends BaseService {
     }
   }
 
-  // tags 排序
+  // tags排序 新版
+  // tags排序
+  async dragMaterialTagRank(data) {
+    const {
+      ctx,
+      app
+    } = this;
+    try {
+      const conn = await app.mysql.beginTransaction();
+      data.changeList.map(async (tag) => {
+        await conn.query(
+          `UPDATE dictParam SET materialRank=? WHERE materialTag= ?`, [tag.newRank, tag.title]);
+      })
+      await conn.commit();
+      return '更新成功';
+    } catch (err) {
+      await conn.rollback();
+      console.log(err);
+      ctx.throw(500, '更新失败');
+    }
+  }
+  // subTags排序
+  async dragMaterialSubTagRank(data) {
+    const {
+      ctx,
+      app
+    } = this;
+    try {
+      const conn = await app.mysql.beginTransaction();
+      data.changeList.map(async (tag)=>{
+        console.log('tag', tag)
+        await conn.query(
+          `UPDATE material SET rank=?, tag=? WHERE id= ?`, [tag.newRank, tag.newTag, tag.id]);
+      })
+      await conn.commit();
+      return '更新成功';
+    } catch (err) {
+      await conn.rollback();
+      console.log(err);
+      ctx.throw(500, '更新失败');
+    }
+  }
+
+  // tags 排序 旧版
   // 查询tags排序
   async getMaterialTagsRank(data) {
     const {
