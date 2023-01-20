@@ -66,4 +66,8 @@ module.exports = (app) => {
   router.post('/wxTask/stop',controller.wx.task.stop);
   router.post('/wxTask/delect',controller.wx.task.delect);
   router.post('/wxTask/update',controller.wx.task.update);
+
+  // 工作台
+  // Index指标
+  router.get('/backHome/getIndexCount', controller.backHome.getIndexCount);
 };
