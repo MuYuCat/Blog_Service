@@ -13,6 +13,19 @@ class BackHomeController extends BaseController {
     this.success(result);
   }
 
+  // 统计ECharts参数信息
+  async getEChartsCount() {
+    const {
+      ctx,
+      service
+    } = this
+    let {
+      type
+    } = ctx.request.body
+    let result = await service.backHome.getEChartsCount(type)
+    this.success(result);
+  }
+
 }
 
 module.exports = BackHomeController

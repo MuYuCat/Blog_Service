@@ -70,4 +70,5 @@ module.exports = (app) => {
   // 工作台
   // Index指标
   router.get('/backHome/getIndexCount', controller.backHome.getIndexCount);
+  router.post('/backHome/getEChartsCount', controller.backHome.getEChartsCount);
 };
