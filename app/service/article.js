@@ -52,7 +52,7 @@ class ArticleService extends BaseService {
             AND ${params.status}
             AND ${params.selectTime}) ORDER BY updated_at DESC LIMIT ${params.pageSize} OFFSET ${(params.pageNum - 1) * params.pageSize} `);
       const totalRows = await conn.query(
-        `SELECT * FROM article WHERE
+        `SELECT COUNT(*) AS SUM FROM article WHERE
           concat(${params.title}
             AND ${params.author}
             AND ${params.tags}
@@ -62,7 +62,7 @@ class ArticleService extends BaseService {
       rows.map((item) => {
         item.tags = item.tags.split(",");
       })
-      let total = totalRows.length || 0;
+      let total = totalRows[0].SUM;
       if (rows) {
         return {
           total,
@@ -70,6 +70,7 @@ class ArticleService extends BaseService {
         };
       }
     } catch (err) {
+      await conn.rollback();
       console.log(err);
       ctx.throw(500, '查询失败');
     }
@@ -161,19 +162,22 @@ class ArticleService extends BaseService {
   }
 
   // 查询blog文章
-  async findBlog() {
+  async findBlog(page) {
     const {
       ctx,
       app
     } = this;
+    const conn = await app.mysql.beginTransaction();
     try {
-      const rows = await app.mysql.query(
-        `SELECT id, title, tags, updated_at, introduction FROM article WHERE status = ? ORDER BY updated_at DESC`, [1]);
+      const rows = await conn.query(
+        `SELECT id, title, tags, updated_at, introduction FROM article WHERE status = ? ORDER BY updated_at DESC LIMIT ? OFFSET ?`, [1, 10, (+page - 1) * 10]);
+      const totalRows = await conn.query(`SELECT COUNT(*) AS SUM FROM article WHERE status = ?`, [1]);
+      await conn.commit();
       console.log(rows)
       rows.map((item) => {
         item.tags = item.tags.split(",");
       })
-      let total = rows.length || 0;
+      let total = totalRows[0].SUM;
       if (rows) {
         return {
           total,
@@ -181,6 +185,7 @@ class ArticleService extends BaseService {
         };
       }
     } catch (err) {
+      await conn.rollback();
       console.log(err);
       ctx.throw(500, '查询失败');
     }

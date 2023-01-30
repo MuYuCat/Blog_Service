@@ -161,9 +161,13 @@ class ArticleController extends BaseController {
   // 查询blog文章
   async findBlog() {
     const {
+      ctx,
       service
     } = this
-    let result = await service.article.findBlog()
+    let {
+      page
+    } = ctx.request.query
+    let result = await service.article.findBlog(page)
     this.success(result);
   }
 
