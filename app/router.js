@@ -68,7 +68,11 @@ module.exports = (app) => {
   router.post('/wxTask/update',controller.wx.task.update);
 
   // 工作台
-  // Index指标
   router.get('/backHome/getIndexCount', controller.backHome.getIndexCount);
   router.post('/backHome/getEChartsCount', controller.backHome.getEChartsCount);
+  router.get('/backHome/getAnno', controller.backHome.getAnno);
+
+  // 系统设置
+  router.post('/backSet/addNewAnno', controller.blogSet.addNewAnno);
+
 };

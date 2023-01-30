@@ -73,6 +73,22 @@ class BackHomeService extends BaseService {
       ctx.throw(500, '查询失败');
     }
   }
+
+  // 获取最新公告
+  async getAnno() {
+    const {
+      ctx,
+      app
+    } = this;
+    try {
+      const anno = await app.mysql.query(`SELECT * FROM anno WHERE id IS NOT NULL ORDER BY created_at DESC LIMIT 0,1`);
+      console.log('anno', anno)
+      return anno
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '查询失败');
+    }
+  }
 }
 
 module.exports = BackHomeService

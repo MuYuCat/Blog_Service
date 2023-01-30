@@ -26,6 +26,15 @@ class BackHomeController extends BaseController {
     this.success(result);
   }
 
+  // 最新公告
+  async getAnno() {
+    const {
+      service
+    } = this
+    let result = await service.backHome.getAnno()
+    this.success(result);
+  }
+
 }
 
 module.exports = BackHomeController
