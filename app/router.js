@@ -71,6 +71,7 @@ module.exports = (app) => {
   router.get('/backHome/getIndexCount', controller.backHome.getIndexCount);
   router.post('/backHome/getEChartsCount', controller.backHome.getEChartsCount);
   router.get('/backHome/getAnno', controller.backHome.getAnno);
+  router.post('/backHome/getToDo', controller.backHome.getToDo);
 
   // 系统设置
   router.post('/backSet/addNewAnno', controller.blogSet.addNewAnno);

@@ -89,6 +89,22 @@ class BackHomeService extends BaseService {
       ctx.throw(500, '查询失败');
     }
   }
+
+  // 获取本月ToDo
+  async getToDo(time) {
+    const {
+      ctx,
+      app
+    } = this;
+    try {
+      const todo = await app.mysql.query(`SELECT * FROM task WHERE status=1 AND endTime >= '${time+'-01'} 00:00:00' AND beginTime <= '${time+'-31'} 23:59:59' ORDER BY updated_at DESC `);
+      console.log('todo', todo, time, `${time+'-01'} 00:00:00'`)
+      return todo
+    } catch (err) {
+      console.log(err);
+      ctx.throw(500, '查询失败');
+    }
+  }
 }
 
 module.exports = BackHomeService
