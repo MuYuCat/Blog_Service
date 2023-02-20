@@ -66,4 +66,21 @@ module.exports = (app) => {
   router.post('/wxTask/stop',controller.wx.task.stop);
   router.post('/wxTask/delect',controller.wx.task.delect);
   router.post('/wxTask/update',controller.wx.task.update);
+
+  // 工作台
+  router.get('/backHome/getIndexCount', controller.backHome.getIndexCount);
+  router.post('/backHome/getEChartsCount', controller.backHome.getEChartsCount);
+  router.get('/backHome/getAnno', controller.backHome.getAnno);
+  router.post('/backHome/getToDo', controller.backHome.getToDo);
+
+  // 系统设置
+  router.post('/backSet/addNewAnno', controller.blogSet.addNewAnno);
+
+  // 待办管理
+  router.post('/todo/add', controller.todo.add);
+  router.get('/todo/find', controller.todo.find);
+  router.post('/todo/update', controller.todo.update);
+  router.post('/todo/editSwitch', controller.todo.editSwitch);
+  router.post('/todo/del', controller.todo.del);
+
 };
